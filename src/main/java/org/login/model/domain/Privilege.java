@@ -1,7 +1,7 @@
 package org.login.model.domain;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Set;
 
 /**
  * Created by JORGE-HP on 10/6/2017.
@@ -11,19 +11,19 @@ public class Privilege {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long privilegeId;
 
     private String name;
 
     @ManyToMany(mappedBy = "privileges")
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
-    public Long getId() {
-        return id;
+    public Long getPrivilegeId() {
+        return privilegeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPrivilegeId(Long privilegeId) {
+        this.privilegeId = privilegeId;
     }
 
     public String getName() {
@@ -34,11 +34,11 @@ public class Privilege {
         this.name = name;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }

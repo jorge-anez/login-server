@@ -1,5 +1,8 @@
 package org.login.rest;
 
+import org.login.model.transfer.UserDTO;
+import org.login.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 public class RestResource {
     private final AtomicLong counter = new AtomicLong();
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public SimpleResponse index() {
+        UserDTO u = new UserDTO();
+        u.setName("Jorge");
+        userService.create(u);
         return new SimpleResponse(counter.incrementAndGet(),"Jorge");
     }
 

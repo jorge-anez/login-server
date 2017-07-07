@@ -1,19 +1,23 @@
 package org.login.model.domain;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Set;
 
 /**
  * Created by JORGE-HP on 10/6/2017.
  */
 @Entity
+@NamedQueries(
+        {@NamedQuery(name="getRoles", query="FROM User u JOIN FETCH u.roles r JOIN FETCH r.privileges p WHERE u.username = :username")}
+)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long userId;
 
     private String firstName;
     private String lastName;
+    private String username;
     private String email;
     private String password;
     private boolean enabled;
@@ -21,19 +25,27 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "users_roles",
+            name = "user_role",
             joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
+                    name = "user_id", referencedColumnName = "userId"),
             inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+                    name = "role_id", referencedColumnName = "roleId"))
+    private Set<Role> roles;
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {
@@ -84,11 +96,11 @@ public class User {
         this.tokenExpired = tokenExpired;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }
